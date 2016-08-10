@@ -130,6 +130,14 @@ var substack = createPlayer('substack.png');
 substack.possess();
 substack.position.set(0,5,0);
 
+// I believe I can fly!
+var fly = require('voxel-fly');
+var makeFly = fly(game);
+//makeFly();
+// physicalObject is most likely going to be your [voxel-player](https://github.com/substack/voxel-player)
+// e.g.:
+makeFly(game.controls.target());
+
 // highlight blocks when you look at them
 var highlight = require('voxel-highlight')
 var highlightPos
@@ -141,7 +149,7 @@ hl.on('remove', function (voxelPos) { highlightPos = null })
 game.on('fire', function (target, state) {
   // Purely for debugging purposes
   document.getElementById("looklocation").innerHTML = highlightPos + " (type: " + game.getBlock(highlightPos) + ")";
-})
+});
 
 //
 // Create a div containing all of the textures
@@ -472,7 +480,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 });
 
-},{"voxel-engine":2,"voxel-highlight":43,"voxel-player":46}],2:[function(require,module,exports){
+},{"voxel-engine":2,"voxel-fly":43,"voxel-highlight":48,"voxel-player":51}],2:[function(require,module,exports){
 (function (process){
 var voxel = require('voxel')
 var voxelMesh = require('voxel-mesh')
@@ -1215,7 +1223,7 @@ Game.prototype.destroy = function() {
 }
 
 }).call(this,require('_process'))
-},{"./lib/detector":3,"./lib/stats":4,"_process":58,"aabb-3d":5,"collide-3d-tilemap":6,"events":53,"gl-matrix":7,"inherits":8,"interact":9,"kb-controls":18,"path":57,"pin-it":23,"raf":24,"spatial-events":25,"three":27,"tic":28,"voxel":38,"voxel-control":29,"voxel-mesh":30,"voxel-physical":31,"voxel-raycast":32,"voxel-region-change":33,"voxel-texture":34,"voxel-view":36}],3:[function(require,module,exports){
+},{"./lib/detector":3,"./lib/stats":4,"_process":63,"aabb-3d":5,"collide-3d-tilemap":6,"events":58,"gl-matrix":7,"inherits":8,"interact":9,"kb-controls":18,"path":62,"pin-it":23,"raf":24,"spatial-events":25,"three":27,"tic":28,"voxel":38,"voxel-control":29,"voxel-mesh":30,"voxel-physical":31,"voxel-raycast":32,"voxel-region-change":33,"voxel-texture":34,"voxel-view":36}],3:[function(require,module,exports){
 /**
  * @author alteredq / http://alteredqualia.com/
  * @author mr.doob / http://mrdoob.com/
@@ -4821,7 +4829,7 @@ function usedrag(el) {
   return ee
 }
 
-},{"drag-stream":10,"events":53,"fullscreen":16,"pointer-lock":17,"stream":72}],10:[function(require,module,exports){
+},{"drag-stream":10,"events":58,"fullscreen":16,"pointer-lock":17,"stream":77}],10:[function(require,module,exports){
 module.exports = dragstream
 
 var Stream = require('stream')
@@ -4889,7 +4897,7 @@ function dragstream(el) {
   }
 }
 
-},{"domnode-dom":11,"stream":72,"through":15}],11:[function(require,module,exports){
+},{"domnode-dom":11,"stream":77,"through":15}],11:[function(require,module,exports){
 module.exports = require('./lib/index')
 
 },{"./lib/index":12}],12:[function(require,module,exports){
@@ -5041,7 +5049,7 @@ function valueFromElement(el) {
   return el.value
 }
 
-},{"stream":72}],14:[function(require,module,exports){
+},{"stream":77}],14:[function(require,module,exports){
 module.exports = DOMStream
 
 var Stream = require('stream').Stream
@@ -5123,7 +5131,7 @@ proto.constructTextPlain = function(data) {
   return [textNode]
 }
 
-},{"stream":72}],15:[function(require,module,exports){
+},{"stream":77}],15:[function(require,module,exports){
 (function (process){
 var Stream = require('stream')
 
@@ -5225,7 +5233,7 @@ function through (write, end) {
 
 
 }).call(this,require('_process'))
-},{"_process":58,"stream":72}],16:[function(require,module,exports){
+},{"_process":63,"stream":77}],16:[function(require,module,exports){
 module.exports = fullscreen
 fullscreen.available = available
 
@@ -5316,7 +5324,7 @@ function shim(el) {
     el.oRequestFullScreen)
 }
 
-},{"events":53}],17:[function(require,module,exports){
+},{"events":58}],17:[function(require,module,exports){
 module.exports = pointer
 
 pointer.available = available
@@ -5480,7 +5488,7 @@ function shim(el) {
     null
 }
 
-},{"events":53,"stream":72}],18:[function(require,module,exports){
+},{"events":58,"stream":77}],18:[function(require,module,exports){
 var ever = require('ever')
   , vkey = require('vkey')
   , max = Math.max
@@ -5689,7 +5697,7 @@ Ever.typeOf = (function () {
     };
 })();;
 
-},{"./init.json":20,"./types.json":21,"events":53}],20:[function(require,module,exports){
+},{"./init.json":20,"./types.json":21,"events":58}],20:[function(require,module,exports){
 module.exports={
   "initEvent" : [
     "type",
@@ -6044,7 +6052,7 @@ function raf(el) {
 raf.polyfill = _raf
 raf.now = function() { return Date.now() }
 
-},{"events":53}],25:[function(require,module,exports){
+},{"events":58}],25:[function(require,module,exports){
 module.exports = SpatialEventEmitter
 
 var slice = [].slice
@@ -42336,7 +42344,7 @@ if (typeof exports !== 'undefined') {
 }
 
 }).call(this,require('_process'))
-},{"_process":58}],28:[function(require,module,exports){
+},{"_process":63}],28:[function(require,module,exports){
 /*
  * tic
  * https://github.com/shama/tic
@@ -42666,7 +42674,7 @@ function clamp(value, to) {
   return isFinite(to) ? max(min(value, to), -to) : value
 }
 
-},{"stream":72}],30:[function(require,module,exports){
+},{"stream":77}],30:[function(require,module,exports){
 var THREE = require('three')
 
 module.exports = function(data, mesher, scaleFactor, three) {
@@ -43305,7 +43313,7 @@ function coordinates(spatial, box, regionWidth) {
  
   return emitter
 }
-},{"aabb-3d":5,"events":53}],34:[function(require,module,exports){
+},{"aabb-3d":5,"events":58}],34:[function(require,module,exports){
 var tic = require('tic')();
 var createAtlas = require('atlaspack');
 
@@ -44044,7 +44052,7 @@ View.prototype.appendTo = function(element) {
   this.resizeWindow(this.width,this.height)
 }
 }).call(this,require('_process'))
-},{"_process":58}],37:[function(require,module,exports){
+},{"_process":63}],37:[function(require,module,exports){
 var events = require('events')
 var inherits = require('inherits')
 
@@ -44181,7 +44189,7 @@ Chunker.prototype.voxelVector = function(pos) {
   return [vx, vy, vz]
 };
 
-},{"events":53,"inherits":8}],38:[function(require,module,exports){
+},{"events":58,"inherits":8}],38:[function(require,module,exports){
 var chunker = require('./chunker')
 
 module.exports = function(opts) {
@@ -44736,6 +44744,234 @@ if(exports) {
 }
 
 },{}],43:[function(require,module,exports){
+var ever = require('ever')
+var vkey = require('vkey')
+var events = require('events')
+
+var game
+
+module.exports = function(gameInstance) {
+  // cache the game instance
+  game = gameInstance
+  return function makeFly(physical, noKeyEvents) {
+    return new Fly(physical, noKeyEvents)
+  }
+}
+
+function Fly(physical, noKeyEvents) {
+  this.flySpeed = 0.8
+  this.physical = physical
+  if (!noKeyEvents) this.bindKeyEvents()
+}
+
+Fly.prototype.bindKeyEvents = function(el) {
+  if (!el) el = document.body
+  var self = this
+  var counter = 0
+  var spaceUpAfterFirstDown = false
+  var first = Date.now()
+  ever(el)
+    .on('keydown', onKeyDown)
+    .on('keyup', onKeyUp)
+  
+  function onKeyDown(ev) {
+    var key = vkey[ev.keyCode] || ev.char
+    var binding = game.keybindings[key]
+    if (binding !== "jump") return
+    if (counter === 1) {
+      if (Date.now() - first > 300) {
+        spaceUpAfterFirstDown = false
+        return first = Date.now()
+      } else {
+        if (!self.flying && spaceUpAfterFirstDown) {
+          self.startFlying()
+        }
+      }
+      spaceUpAfterFirstDown = false
+      return counter = 0
+    }
+    if (counter === 0) {
+      first = Date.now()
+      counter += 1
+    }
+  }
+  
+  function onKeyUp(ev) {
+    var key = vkey[ev.keyCode] || ev.char
+    if (key === '<space>' && counter === 1) {
+      spaceUpAfterFirstDown = true
+    }
+  }
+}
+
+Fly.prototype.startFlying = function() {
+  var self = this
+  this.flying = true
+  var physical = this.physical
+  physical.removeForce(game.gravity)
+  physical.onGameTick = function(dt) {
+    if (physical.atRestY() === -1) return self.stopFlying()
+    physical.friction.x = self.flySpeed
+    physical.friction.z = self.flySpeed
+    var press = game.controls.state
+    if (press['crouch']) return physical.velocity.y = -0.01
+    if (press['jump']) return physical.velocity.y = 0.01
+    physical.velocity.y = 0
+  }
+  game.on('tick', physical.onGameTick)
+}
+
+Fly.prototype.stopFlying = function() {
+  this.flying = false
+  var physical = this.physical
+  physical.subjectTo(game.gravity)
+  game.removeListener('tick', physical.onGameTick)
+}
+},{"events":58,"ever":44,"vkey":47}],44:[function(require,module,exports){
+arguments[4][19][0].apply(exports,arguments)
+},{"./init.json":45,"./types.json":46,"dup":19,"events":58}],45:[function(require,module,exports){
+arguments[4][20][0].apply(exports,arguments)
+},{"dup":20}],46:[function(require,module,exports){
+arguments[4][21][0].apply(exports,arguments)
+},{"dup":21}],47:[function(require,module,exports){
+var ua = typeof window !== 'undefined' ? window.navigator.userAgent : ''
+  , isOSX = /OS X/.test(ua)
+  , isOpera = /Opera/.test(ua)
+  , maybeFirefox = !/like Gecko/.test(ua) && !isOpera
+
+var i, output = module.exports = {
+  0:  isOSX ? '<menu>' : '<UNK>'
+, 1:  '<mouse 1>'
+, 2:  '<mouse 2>'
+, 3:  '<break>'
+, 4:  '<mouse 3>'
+, 5:  '<mouse 4>'
+, 6:  '<mouse 5>'
+, 8:  '<backspace>'
+, 9:  '<tab>'
+, 12: '<clear>'
+, 13: '<enter>'
+, 16: '<shift>'
+, 17: '<control>'
+, 18: '<alt>'
+, 19: '<pause>'
+, 20: '<caps-lock>'
+, 21: '<ime-hangul>'
+, 23: '<ime-junja>'
+, 24: '<ime-final>'
+, 25: '<ime-kanji>'
+, 27: '<escape>'
+, 28: '<ime-convert>'
+, 29: '<ime-nonconvert>'
+, 30: '<ime-accept>'
+, 31: '<ime-mode-change>'
+, 27: '<escape>'
+, 32: '<space>'
+, 33: '<page-up>'
+, 34: '<page-down>'
+, 35: '<end>'
+, 36: '<home>'
+, 37: '<left>'
+, 38: '<up>'
+, 39: '<right>'
+, 40: '<down>'
+, 41: '<select>'
+, 42: '<print>'
+, 43: '<execute>'
+, 44: '<snapshot>'
+, 45: '<insert>'
+, 46: '<delete>'
+, 47: '<help>'
+, 91: '<meta>'  // meta-left -- no one handles left and right properly, so we coerce into one.
+, 92: '<meta>'  // meta-right
+, 93: isOSX ? '<meta>' : '<menu>'      // chrome,opera,safari all report this for meta-right (osx mbp).
+, 95: '<sleep>'
+, 106: '<num-*>'
+, 107: '<num-+>'
+, 108: '<num-enter>'
+, 109: '<num-->'
+, 110: '<num-.>'
+, 111: '<num-/>'
+, 144: '<num-lock>'
+, 145: '<scroll-lock>'
+, 160: '<shift-left>'
+, 161: '<shift-right>'
+, 162: '<control-left>'
+, 163: '<control-right>'
+, 164: '<alt-left>'
+, 165: '<alt-right>'
+, 166: '<browser-back>'
+, 167: '<browser-forward>'
+, 168: '<browser-refresh>'
+, 169: '<browser-stop>'
+, 170: '<browser-search>'
+, 171: '<browser-favorites>'
+, 172: '<browser-home>'
+
+  // ff/osx reports '<volume-mute>' for '-'
+, 173: isOSX && maybeFirefox ? '-' : '<volume-mute>'
+, 174: '<volume-down>'
+, 175: '<volume-up>'
+, 176: '<next-track>'
+, 177: '<prev-track>'
+, 178: '<stop>'
+, 179: '<play-pause>'
+, 180: '<launch-mail>'
+, 181: '<launch-media-select>'
+, 182: '<launch-app 1>'
+, 183: '<launch-app 2>'
+, 186: ';'
+, 187: '='
+, 188: ','
+, 189: '-'
+, 190: '.'
+, 191: '/'
+, 192: '`'
+, 219: '['
+, 220: '\\'
+, 221: ']'
+, 222: "'"
+, 223: '<meta>'
+, 224: '<meta>'       // firefox reports meta here.
+, 226: '<alt-gr>'
+, 229: '<ime-process>'
+, 231: isOpera ? '`' : '<unicode>'
+, 246: '<attention>'
+, 247: '<crsel>'
+, 248: '<exsel>'
+, 249: '<erase-eof>'
+, 250: '<play>'
+, 251: '<zoom>'
+, 252: '<no-name>'
+, 253: '<pa-1>'
+, 254: '<clear>'
+}
+
+for(i = 58; i < 65; ++i) {
+  output[i] = String.fromCharCode(i)
+}
+
+// 0-9
+for(i = 48; i < 58; ++i) {
+  output[i] = (i - 48)+''
+}
+
+// A-Z
+for(i = 65; i < 91; ++i) {
+  output[i] = String.fromCharCode(i)
+}
+
+// num0-9
+for(i = 96; i < 107; ++i) {
+  output[i] = '<num-'+(i - 96)+'>'
+}
+
+// F1-F24
+for(i = 112; i < 136; ++i) {
+  output[i] = 'F'+(i-111)
+}
+
+},{}],48:[function(require,module,exports){
 var inherits = require('inherits')
 var events = require('events')
 var _ = require('underscore')
@@ -44902,9 +45138,9 @@ Highlighter.prototype.highlight = function () {
   if (!this.animate) this.mesh.position.set(this.targetPosition[0], this.targetPosition[1], this.targetPosition[2])
 }
 
-},{"events":53,"inherits":44,"underscore":45}],44:[function(require,module,exports){
+},{"events":58,"inherits":49,"underscore":50}],49:[function(require,module,exports){
 arguments[4][8][0].apply(exports,arguments)
-},{"dup":8}],45:[function(require,module,exports){
+},{"dup":8}],50:[function(require,module,exports){
 //     Underscore.js 1.4.4
 //     http://underscorejs.org
 //     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
@@ -46132,7 +46368,7 @@ arguments[4][8][0].apply(exports,arguments)
 
 }).call(this);
 
-},{}],46:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 var skin = require('minecraft-skin');
 
 module.exports = function (game) {
@@ -46212,7 +46448,7 @@ function parseXYZ (x, y, z) {
     return { x: Number(x), y: Number(y), z: Number(z) };
 }
 
-},{"minecraft-skin":47}],47:[function(require,module,exports){
+},{"minecraft-skin":52}],52:[function(require,module,exports){
 var THREE
 
 module.exports = function(three, image, sizeRatio) {
@@ -46584,9 +46820,9 @@ Skin.prototype.createPlayerObject = function(scene) {
   playerGroup.scale = this.scale
   return playerGroup
 }
-},{}],48:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 
-},{}],49:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -48052,7 +48288,7 @@ function blitBuffer (src, dst, offset, length) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":50,"ieee754":51,"isarray":52}],50:[function(require,module,exports){
+},{"base64-js":55,"ieee754":56,"isarray":57}],55:[function(require,module,exports){
 ;(function (exports) {
   'use strict'
 
@@ -48185,7 +48421,7 @@ function blitBuffer (src, dst, offset, length) {
   exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],51:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -48271,14 +48507,14 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],52:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],53:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -48578,7 +48814,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],54:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -48603,7 +48839,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],55:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 /**
  * Determine if an object is Buffer
  *
@@ -48622,12 +48858,12 @@ module.exports = function (obj) {
     ))
 }
 
-},{}],56:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-},{}],57:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -48855,7 +49091,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":58}],58:[function(require,module,exports){
+},{"_process":63}],63:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -48948,10 +49184,10 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],59:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 module.exports = require("./lib/_stream_duplex.js")
 
-},{"./lib/_stream_duplex.js":60}],60:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":65}],65:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -49035,7 +49271,7 @@ function forEach (xs, f) {
   }
 }
 
-},{"./_stream_readable":62,"./_stream_writable":64,"core-util-is":65,"inherits":54,"process-nextick-args":66}],61:[function(require,module,exports){
+},{"./_stream_readable":67,"./_stream_writable":69,"core-util-is":70,"inherits":59,"process-nextick-args":71}],66:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -49064,7 +49300,7 @@ PassThrough.prototype._transform = function(chunk, encoding, cb) {
   cb(null, chunk);
 };
 
-},{"./_stream_transform":63,"core-util-is":65,"inherits":54}],62:[function(require,module,exports){
+},{"./_stream_transform":68,"core-util-is":70,"inherits":59}],67:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -50043,7 +50279,7 @@ function indexOf (xs, x) {
 }
 
 }).call(this,require('_process'))
-},{"./_stream_duplex":60,"_process":58,"buffer":49,"core-util-is":65,"events":53,"inherits":54,"isarray":56,"process-nextick-args":66,"string_decoder/":73,"util":48}],63:[function(require,module,exports){
+},{"./_stream_duplex":65,"_process":63,"buffer":54,"core-util-is":70,"events":58,"inherits":59,"isarray":61,"process-nextick-args":71,"string_decoder/":78,"util":53}],68:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -50242,7 +50478,7 @@ function done(stream, er) {
   return stream.push(null);
 }
 
-},{"./_stream_duplex":60,"core-util-is":65,"inherits":54}],64:[function(require,module,exports){
+},{"./_stream_duplex":65,"core-util-is":70,"inherits":59}],69:[function(require,module,exports){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
 // the drain event emission and buffering.
@@ -50773,7 +51009,7 @@ function endWritable(stream, state, cb) {
   state.ended = true;
 }
 
-},{"./_stream_duplex":60,"buffer":49,"core-util-is":65,"events":53,"inherits":54,"process-nextick-args":66,"util-deprecate":67}],65:[function(require,module,exports){
+},{"./_stream_duplex":65,"buffer":54,"core-util-is":70,"events":58,"inherits":59,"process-nextick-args":71,"util-deprecate":72}],70:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -50884,7 +51120,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../../../insert-module-globals/node_modules/is-buffer/index.js")})
-},{"../../../../insert-module-globals/node_modules/is-buffer/index.js":55}],66:[function(require,module,exports){
+},{"../../../../insert-module-globals/node_modules/is-buffer/index.js":60}],71:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -50908,7 +51144,7 @@ function nextTick(fn) {
 }
 
 }).call(this,require('_process'))
-},{"_process":58}],67:[function(require,module,exports){
+},{"_process":63}],72:[function(require,module,exports){
 (function (global){
 
 /**
@@ -50979,10 +51215,10 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],68:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 module.exports = require("./lib/_stream_passthrough.js")
 
-},{"./lib/_stream_passthrough.js":61}],69:[function(require,module,exports){
+},{"./lib/_stream_passthrough.js":66}],74:[function(require,module,exports){
 var Stream = (function (){
   try {
     return require('st' + 'ream'); // hack to fix a circular dependency issue when used with browserify
@@ -50996,13 +51232,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":60,"./lib/_stream_passthrough.js":61,"./lib/_stream_readable.js":62,"./lib/_stream_transform.js":63,"./lib/_stream_writable.js":64}],70:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":65,"./lib/_stream_passthrough.js":66,"./lib/_stream_readable.js":67,"./lib/_stream_transform.js":68,"./lib/_stream_writable.js":69}],75:[function(require,module,exports){
 module.exports = require("./lib/_stream_transform.js")
 
-},{"./lib/_stream_transform.js":63}],71:[function(require,module,exports){
+},{"./lib/_stream_transform.js":68}],76:[function(require,module,exports){
 module.exports = require("./lib/_stream_writable.js")
 
-},{"./lib/_stream_writable.js":64}],72:[function(require,module,exports){
+},{"./lib/_stream_writable.js":69}],77:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -51131,7 +51367,7 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":53,"inherits":54,"readable-stream/duplex.js":59,"readable-stream/passthrough.js":68,"readable-stream/readable.js":69,"readable-stream/transform.js":70,"readable-stream/writable.js":71}],73:[function(require,module,exports){
+},{"events":58,"inherits":59,"readable-stream/duplex.js":64,"readable-stream/passthrough.js":73,"readable-stream/readable.js":74,"readable-stream/transform.js":75,"readable-stream/writable.js":76}],78:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -51354,4 +51590,4 @@ function base64DetectIncompleteChar(buffer) {
   this.charLength = this.charReceived ? 3 : 0;
 }
 
-},{"buffer":49}]},{},[1]);
+},{"buffer":54}]},{},[1]);
