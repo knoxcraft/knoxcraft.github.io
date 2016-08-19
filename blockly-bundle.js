@@ -2396,10 +2396,10 @@ function blockOptions() {
 
 Blockly.Blocks['turtle_setblocktype2'] = {
   init: function() {
-    var dropdown = new Blockly.FieldDropdown(blockOptions);
+    var dropdown = new Blockly.FieldDropdown(blockOptions());
     this.appendDummyInput()
         .appendField("set block type to")
-        .appendField(dropdown, 'blockType');
+        .appendField(dropdown, "blockType");
     this.setInputsInline(true);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -2455,18 +2455,18 @@ Blockly.Blocks['turtle_setdir'] = {
 Blockly.JavaScript['turtle_init'] = function(block) {
   var text_name = block.getFieldValue('name');
   var statements_script = Blockly.JavaScript.statementToCode(block, 'script');
-			
+
   var code = 'var json = \'\';\n';
   code += 'json += \'{\\n     "scriptname" : "' + text_name + '",\\n     "commands" : [\\n\';';
-  code += statements_script; 
-  
+  code += statements_script;
+
   //remove trailing comma
   code += 'if (json.endsWith(\',\\n\'))  {';
   code += '     json = json.substring(0, json.length-2) + \'\\n\';\n';
   code += '}';
-  
+
   code += 'json += \'     ]\\n}\';\n';
-	
+
   return code;
 };
 
@@ -2474,7 +2474,7 @@ Blockly.JavaScript['turtle_move'] = function(block) {
   var text_dist = block.getFieldValue('dist');
   var dropdown_dir = block.getFieldValue('dir');
   var code = 'json += \'     {"cmd" : "' + dropdown_dir.toLowerCase() + '", \\n          "args" : {"dist" : ' + text_dist + '}},\\n\';\n';
-  
+
   return code;
 };
 
@@ -2498,13 +2498,13 @@ Blockly.JavaScript['turtle_setblockplace'] = function(block) {
 
 Blockly.JavaScript['turtle_setblocktype'] = function(block) {
   var text_type = block.getFieldValue('type');
-  var code = 'json += \'     {"cmd" : "setBlock", \\n          "args" : {"type" : ' + text_type + '}},\\n\';\n';
+  var code = 'json += \'     {"cmd" : "setBlock", \\n          "args" : {"blockType" : ' + text_type + '}},\\n\';\n';
   return code;
 };
 
 Blockly.JavaScript['turtle_setblocktype2'] = function(block) {
-  var dropdown_type = block.getFieldValue('type');
-  var code = 'json += \'     {"cmd" : "setBlock", \\n          "args" : {"type" : ' + dropdown_type + '}},\\n\';\n';
+  var dropdown_type = block.getFieldValue('blockType');
+  var code = 'json += \'     {"cmd" : "setBlock", \\n          "args" : {"blockType" : ' + dropdown_type + '}},\\n\';\n';
   return code;
 };
 
@@ -2718,8 +2718,7 @@ BlocklyStorage.alert = function(message) {
 };
 /*
 This is what we would require if Blockly used module.exports
-Instead we are going to just concatenate all of files together,
-and then minify them.
+Instead we are going to just concatenate all of files together.
 
 require('./js/blockly_compressed.js');
 require('./js/blocks_compressed.js');
@@ -2729,7 +2728,7 @@ require('./blocks/turtle.js');
 require('./generators/javascript/turtle.js');
 */
 
-// HACK global variables
+// HACK global variables because we aren't using module.exports
 var onresize=function(){}
 var workspace=null;
 
@@ -2801,8 +2800,6 @@ var uploadBlockly = function(url) {
 
   var jsontext=runBlocklyCode();
   formData["jsontext"]=jsontext;
-  //TODO: figure out how to get a representation of the blocks
-  // that we can use to regenerate our blocks
   formData["sourcetext"]=jsontext;
   formData["language"]="blockly";
   formData["client"]="web";
