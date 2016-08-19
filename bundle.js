@@ -275,8 +275,11 @@ function updateJSON(e) {
   }
 }
 
+// HACK making extractCommandsFromJSON an explicitly global function
+// I can't figure out how to get module.exports to work with browserify.
+// This was a quick-and-dirty solution.
 // Called once the JSON has been loaded
-var extractCommandsFromJSON = function(jsontext) {
+window.extractCommandsFromJSON = function(jsontext) {
   var json = JSON.parse(jsontext);
   // Sets the current script to be the JSON's list of commands
   curScript = json.commands;
@@ -561,7 +564,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     editor.getSession().removeMarker(curACEErrorMarker);
     JavaPoly.type('org.knoxcraft.javapoly.JavaPolyCompiler').then(function(JavaPolyCompiler){
       // constants that tell us where things are in the array returned
-      // from the JavaPolyCompiler
+      // from the JavaPolyCompiler. We return an array because we can't
+      // figure out how to return Java instances from JavaPoly to Javascript,
+      // and returning an array of strings works great anyway.
       var TOTAL_SUCCESS=0;
       var JSON_RESULT=1;
       var RUNTIME_SUCCESS=2;
@@ -576,14 +581,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
       } else {
         className = getClassName(code);
       }
-      // TODO: someday timeout if this call takes too long
+      // TODO: someday, somehow timeout within JS (using webworkers or something else)
+      // if this call takes too long or triggers an infinite loop
       JavaPolyCompiler.compileAndRun(code, className).then(function(result){
         console.log("result is "+result);
         if (result[TOTAL_SUCCESS]==='true'){
           // success
-          // alert("success");
-	  // TODO: I hope this is the correct place to send the JSON commands
-	  extractCommandsFromJSON(result[JSON_RESULT]);
+          extractCommandsFromJSON(result[JSON_RESULT]);
           setMessage("successfully compiled and loaded code!");
         } else if (result[COMPILE_SUCCESS]==='true' && result[RUNTIME_SUCCESS]==="false"){
 	  // runtime error

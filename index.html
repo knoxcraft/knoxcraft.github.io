@@ -64,7 +64,165 @@ public class HelloWorld {
 </div> <!-- End the Java Coding Tab Div-->
 
 <div id="Blockly" class="tabcontent">
-  <h3>Coming soon: Blockly</h3>
+  <script src="/blockly-bundle.js"></script>
+  <h1>Knoxcraft with Blockly!</h1>
+  <p>Create your Knoxcraft Turtle scripts below.  For help and examples, see our Student Guide <a href="https://sites.google.com/a/knox.edu/knoxcraft/student-guide-blockly">here</a>.</p>
+
+  <div>
+    <p><button id="runblockly">Run this turtle in the Game window</button></p>
+  </div>
+
+  <div id="blocklyTable">
+    <div id="blocklyArea">
+    Blockly will be positioned here.
+    </div>
+  </div>
+
+  <div id="blocklyDiv" style="position: absolute"></div>
+
+  <!--Define the toolbox-->
+  <xml id="toolbox" style="display: none">
+   <category name="Turtle Commands" >
+    <block type="turtle_init" gap="32"></block>
+    <block type="turtle_move" gap="8"></block>
+    <block type="turtle_turn" gap="32"></block>
+    <block type="turtle_setblockplace" gap="32"></block>
+    <block type="turtle_setblocktype2" gap="8"></block>
+    <block type="turtle_setblocktype" gap="32"></block>
+    <block type="turtle_setpos" gap="8"></block>
+    <block type="turtle_setdir"></block>
+    </category>
+    <sep></sep>
+
+    <category name="Text">
+    <block type="text"></block>
+    <block type="text_print"></block>
+    <block type="text_append"></block>
+    <block type="text_length"></block>
+    <block type="text_isEmpty"></block>
+    <block type="text_indexOf"></block>
+    <block type="text_charAt"></block>
+    <block type="text_getSubstring"></block>
+    </category>
+
+    <category name="Math">
+    <block type="math_number"></block>
+    <block type="math_arithmetic"></block>
+    <block type="math_single"></block>
+    <block type="math_trig"></block>
+    <block type="math_constant"></block>
+    <block type="math_number_property"></block>
+    <block type="math_change"></block>
+    <block type="math_round"></block>
+    <block type="math_modulo"></block>
+    <block type="math_random_int"></block>
+    <block type="math_random_float"></block>
+    </category>
+
+    <category name="Control">
+    <block type="controls_whileUntil"></block>
+    <block type="controls_repeat_ext"></block>
+    <block type="controls_for"></block>
+    <block type="controls_flow_statements"></block>
+    </category>
+
+    <category name="Logic">
+    <block type="controls_if"></block>
+    <block type="logic_compare"></block>
+    <block type="logic_operation"></block>
+    <block type="logic_boolean"></block>
+    <block type="logic_negate"></block>
+    </category>
+
+    <category name="Variables" custom="VARIABLE"></category>
+    <category name="Functions" custom="PROCEDURE"></category>
+  </xml>
+
+  <script type="text/javascript">
+  function removeFromDOMById(id){
+    //http://stackoverflow.com/questions/3387427/remove-element-by-id
+    var element = document.getElementById(id);
+    if (element!=null){
+      //console.log('removing outer html of '+id);
+      element.outerHTML = "";
+      delete element;
+    }
+  }
+  function removeFromDOMByClass(clazz){
+    var elements=document.getElementsByClassName(clazz);
+    for (var i=0; i<elements.length; i++){
+      var element=elements[i];
+      //console.log('removing '+element);
+      element.parentNode.removeChild(element);
+    }
+  }
+
+  // backup and restore the workspace
+  var backupWorkspaceExists=false;
+  // add handlers to the buttons we click to switch tabs
+  var elements=document.getElementsByClassName('tablinks');
+  for (var i=0; i<elements.length; i++){
+    var elm=elements[i];
+    elm.addEventListener('click', function(){
+      // HACK using some of the code from appengine/storage.js
+      // to save the workspace locally so we can restore it
+      var workspace = Blockly.getMainWorkspace();
+      //console.log('workspace is '+workspace);
+      if (workspace != null) {
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        // Gets the current URL, not including the hash.
+        var url = window.location.href.split('#')[0];
+        //console.log('url is '+url);
+        // apparently window.localStorage is a magical dictionary
+        // where Javascript can put things.
+        window.localStorage.setItem(url, Blockly.Xml.domToText(xml));
+        backupWorkspaceExists=true;
+      }
+
+      // HACK clearing out the blockly div and area,
+      // and also removing the blocklyToolboxDiv that is added by
+      // calls to Blockly.inject().
+      // Otherwise we leave a giant blockly tooltip div
+      // sitting around in the other tabs.
+      // Note that injecting blockly actually creates several divs
+      // (blocklyWidgetDiv, blocklyToolboxDiv, blocklyTooltipDiv),
+      // but we only need to remove blocklyToolboxDiv. If we remove
+      // the other two, we can add blocks, but we can't edit them.
+      // FIXME Still not sure if we also need to clear out
+      // the innerHTML of blocklyDiv and blocklyArea.
+
+      //console.log('clearing blockly area and blockly div');
+
+      document.getElementById('blocklyDiv').innerHTML='';
+      document.getElementById('blocklyArea').innerHTML='';
+      removeFromDOMByClass('blocklyToolboxDiv');
+
+    });
+    if (elm.id=='blocklyTab'){
+      elm.addEventListener('click', function(){
+        //console.log('hey-yo!');
+        // we have to re-inject blockly each time for it to show up properly
+        // If we don't, we get the placeholder div that says "Blockly will be
+        // positioned here", but it doesn't show up until we re-size the window.
+        // For some reason, calling the onresize() function created in blockly.js
+        // doesn't seem to count as a resize event.
+        blocklySetup('blocklyArea', 'blocklyDiv', 'toolbox');
+        //console.log('backup workspace? '+backupWorkspaceExists);
+        if (backupWorkspaceExists){
+          window.setTimeout(BlocklyStorage.restoreBlocks, 0);
+        }
+        onresize();
+      });
+    }
+  }
+
+  // event handler to run the actual code
+  document.getElementById('runblockly').addEventListener('click', function(){
+    var code=runBlocklyCode();
+    extractCommandsFromJSON(code);
+  });
+  </script>
+
 </div>
 
 <div id="Options" class="tabcontent">
