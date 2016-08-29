@@ -8,7 +8,6 @@ materialNames['AIR'] = 0;
 // Registers a material
 function addMat(name, filename) {
   // Attaches the new filename to the end of the allMaterials array
-
   allMaterials.push(filename);
   /* Note that the first index in the materials array is actually
    * item '1' (air is 0).
@@ -174,7 +173,12 @@ function makeTextureTable() {
   table += "</table>";
   return table;
 }
-var blocktypes=document.getElementById("blocktypes").innerHTML = makeTextureTable();
+var blocktypes=document.getElementsByClassName("blocktypes");
+for (var i=0; i<blocktypes.length; i++) {
+  var blocktype=blocktypes[i];
+  blocktype.innerHTML = makeTextureTable();
+}
+//var blocktypes=document.getElementById("blocktypes").innerHTML = makeTextureTable();
 
 
 /////////////////////////////////////Begin Turtle related code/////////////////
@@ -481,7 +485,7 @@ function setPosition(args) {
 
 
 function saveToFile(filename, data) {
-    var blob = new Blob([data], {type: 'text/csv'});
+    var blob = new Blob([data], {type: 'text/plain'});
     if(window.navigator.msSaveOrOpenBlob) {
         window.navigator.msSaveBlob(blob, filename);
     }
@@ -496,9 +500,16 @@ function saveToFile(filename, data) {
     }
 }
 
+function downloadPythonEditorCode() {
+  var code = pyeditor.getValue();
+  //saveToFile('pykc' + js_yyyy_mm_dd_hh_mm_ss(), code);
+  saveToFile('pykc.py', code);
+}
+
 function downloadEditorCode() {
   var code = editor.getValue();
-  saveToFile(getClassName(code) + ' ' + js_yyyy_mm_dd_hh_mm_ss(), code);
+  //saveToFile(getClassName(code) + ' ' + js_yyyy_mm_dd_hh_mm_ss(), code);
+  saveToFile(getClassName(code)+'.java', code);
 }
 
 function js_yyyy_mm_dd_hh_mm_ss () {
@@ -557,6 +568,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   document.getElementById("codeUploadButton").addEventListener('change', uploadCode, false);
   document.getElementById("JSONUploadButton").addEventListener('change', parseJSON, false);
   document.getElementById("downloadButton").addEventListener('click', downloadEditorCode);
+  document.getElementById("downloadPythonButton").addEventListener('click', downloadPythonEditorCode);
   document.getElementById("undo").addEventListener("click", undo);
   document.getElementById("compileandrun").addEventListener("click", function() {
     running();
@@ -611,8 +623,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 });
 
-// No tabs are open by default, which is sort of strange. This opens the coding tab.
-goToTab("javaTab");
+// No tabs are open by default.
+// Let users pick tabs using #python, #blockly, etc
+// Default to Java if they don't pick a tab
+var tab=window.location.href.split('#')[1];
+//console.log('tab is '+tab);
+if (tab=='') {
+  goToTab("javaTab");
+} else {
+  goToTab(tab+"Tab");
+}
 
 },{"voxel-engine":2,"voxel-fly":43,"voxel-highlight":48,"voxel-player":51}],2:[function(require,module,exports){
 (function (process){
