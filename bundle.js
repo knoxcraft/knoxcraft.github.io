@@ -8,6 +8,7 @@ materialNames['AIR'] = 0;
 // Registers a material
 function addMat(name, filename) {
   // Attaches the new filename to the end of the allMaterials array
+
   allMaterials.push(filename);
   /* Note that the first index in the materials array is actually
    * item '1' (air is 0).
@@ -553,8 +554,6 @@ function highlightErrors(compilerError) {
 
   var Range = ace.require('ace/range').Range;
   var range = new Range(lineStart, colStart, lineEnd, colEnd);
-  //var range = new Range(1,1,1,1);
-  window.alert(lineStart + " " + colStart + " " + lineEnd + " " + colEnd);
   curACEErrorMarker = editor.getSession().addMarker(range,"aceErrorMarker", "text");
 }
 
@@ -604,12 +603,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         } else if (result[COMPILE_SUCCESS]==='true' && result[RUNTIME_SUCCESS]==="false"){
 	  // runtime error
           console.log(result[RUNTIME_MESSAGE]);
-          setMessage("runtime error:\n"+result[RUNTIME_MESSAGE]);
+          setMessage("runtime error:<br>"+result[RUNTIME_MESSAGE]);
           highlightErrors(result[COMPILE_MESSAGE]);
         } else {
           // compiler error
           console.log(result[RUNTIME_MESSAGE]);
-          setMessage("compile error: \n"+result[COMPILE_MESSAGE]);
+          setMessage("compile error: <br>"+result[COMPILE_MESSAGE]);
           highlightErrors(result[COMPILE_MESSAGE]);
         }
       }, function(error) {
@@ -626,7 +625,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 // No tabs are open by default.
 // Let users pick tabs using #python, #blockly, etc
 // Default to Java if they don't pick a tab
-var tab=window.location.href.split('#')[1];
+var tab='';
+var splits=window.location.href.split('#');
+if (splits.length>1) {
+  tab=splits[1];
+}
 //console.log('tab is '+tab);
 if (tab=='') {
   goToTab("javaTab");
