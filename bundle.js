@@ -289,8 +289,8 @@ window.extractCommandsFromJSON = function(jsontext) {
   // Sets the current script to be the JSON's list of commands
   curScript = json.commands;
   if (curScript != null) {
-    goToTab("gameTab");
     setStatus(json.scriptname + " has been loaded successfully!");
+    goToTab("gameTab");
     if (document.getElementById("autoRunScript").checked) {
       runScript();
     }
