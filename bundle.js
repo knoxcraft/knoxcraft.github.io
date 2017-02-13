@@ -345,6 +345,10 @@ var runScript = function() {
       case "down":
         down(cmd.args);
         break;
+      case "turnRight":
+        turnRight(cmd.args);
+      case "turnLeft":
+        turnLeft(cmd.args);
       case "turn":
         turnCommand(cmd.args);
         break;
@@ -452,6 +456,14 @@ function down(args) {
   } else {
     position[1] -= dist;
   }
+}
+
+function turnRight(args) {
+  turn(args.degrees);
+}
+
+function turnLeft(args) {
+  turn(-1 * args.degrees);
 }
 
 function turnCommand(args) {
