@@ -286,6 +286,10 @@ function updateJSON(e) {
 // Called once the JSON has been loaded
 window.extractCommandsFromJSON = function(jsontext) {
   var json = JSON.parse(jsontext);
+
+  // log how many commands we're getting
+  console.log(Object.keys(json).length);
+
   // Sets the current script to be the JSON's list of commands
   curScript = json.commands;
   if (curScript != null) {
