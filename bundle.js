@@ -604,7 +604,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var COMPILE_SUCCESS=4;
       var COMPILE_MESSAGE=5;
       var code = editor.getValue();
-      console.log("code is \n"+code);
+      console.log(code);
       var className;
       var userClassName = document.getElementById("classname").value;
       if (userClassName != null && userClassName != "") {
@@ -628,7 +628,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           extractCommandsFromJSON(result[JSON_RESULT]);
           setMessage("successfully compiled and loaded code!");
         } else if (result[COMPILE_SUCCESS]==='true' && result[RUNTIME_SUCCESS]==="false"){
-	  // runtime error
+	         // runtime error
           console.log(result[RUNTIME_MESSAGE]);
           setMessage("runtime error:<br>"+result[RUNTIME_MESSAGE]);
           highlightErrors(result[COMPILE_MESSAGE]);
@@ -646,7 +646,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
   }, function(error) {
        setMessage("A very bad error occurred (JavaPoly isn't working or we can't find an essential dependency- probably JavaPolyCompiler). There is nothing that you can do. I'm sorry.")
-});
+     });
 });
 
 // No tabs are open by default.
