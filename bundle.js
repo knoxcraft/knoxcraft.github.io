@@ -393,6 +393,9 @@ function undo() {
 
 // Turns the turtle deg degrees and bounds the result between 0 and 360
 function turn(deg) {
+  while (deg<0) {
+    deg+=360;
+  }
   turnAngle = (turnAngle + (deg % 360) + 360) % 360 ;
 }
 
