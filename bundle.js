@@ -604,6 +604,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var COMPILE_SUCCESS=4;
       var COMPILE_MESSAGE=5;
       var code = editor.getValue();
+      console.log("code is \n"+code);
       var className;
       var userClassName = document.getElementById("classname").value;
       if (userClassName != null && userClassName != "") {
