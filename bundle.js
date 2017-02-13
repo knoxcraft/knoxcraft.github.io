@@ -236,8 +236,10 @@ function running() {
 // Updates the lookLocation indicator when the mouse is clicked ("fired")
 game.on('fire', function (target, state) {
   // Purely for debugging purposes
+  /*
   document.getElementById("looklocation").innerHTML = "(" + highlightPos + ")";
   scriptLaunchLocation = highlightPos;
+  */
 });
 
 function uploadCode(evt) {
