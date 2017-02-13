@@ -347,8 +347,10 @@ var runScript = function() {
         break;
       case "turnRight":
         turnRight(cmd.args);
+        break;
       case "turnLeft":
         turnLeft(cmd.args);
+        break;
       case "turn":
         turnCommand(cmd.args);
         break;
