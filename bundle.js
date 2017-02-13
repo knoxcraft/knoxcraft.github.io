@@ -609,9 +609,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
       } else {
         className = getClassName(code);
       }
+      // XXX: Hack alert! We can't seem to load new classfiles, so we're
+      // renaming the class every time using a timestamp.
+      var newClassName=className+''+(new Date().getTime());
+      code=code.replace('class '+className, 'class '+newClassName);
+
       // TODO: someday, somehow timeout within JS (using webworkers or something else)
       // if this call takes too long or triggers an infinite loop
-      JavaPolyCompiler.compileAndRun(code, className).then(function(result){
+      JavaPolyCompiler.compileAndRun(code, newClassName).then(function(result){
         console.log("result is "+result);
         if (result[TOTAL_SUCCESS]==='true'){
           // success
