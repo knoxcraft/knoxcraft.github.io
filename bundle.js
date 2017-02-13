@@ -588,7 +588,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   document.getElementById("undo").addEventListener("click", undo);
   document.getElementById("compileandrun").addEventListener("click", function() {
     running();
-    downloadEditorCode();
+    //downloadEditorCode();
     editor.getSession().removeMarker(curACEErrorMarker);
     JavaPoly.type('org.knoxcraft.javapoly.JavaPolyCompiler').then(function(JavaPolyCompiler){
       // constants that tell us where things are in the array returned
