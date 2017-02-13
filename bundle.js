@@ -621,6 +621,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       // TODO: someday, somehow timeout within JS (using webworkers or something else)
       // if this call takes too long or triggers an infinite loop
       JavaPolyCompiler.compileAndRun(code, newClassName).then(function(result){
+        console.log("number of json commands: "+Object.keys(result).length);
         console.log("result is "+result);
         if (result[TOTAL_SUCCESS]==='true'){
           // success
