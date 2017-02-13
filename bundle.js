@@ -612,15 +612,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
       } else {
         className = getClassName(code);
       }
+      /*
       // XXX: Hack alert! We can't seem to load new classfiles, so we're
       // renaming the class every time using a timestamp.
       var newClassName=className+''+(new Date().getTime());
       code=code.replace('class '+className, 'class '+newClassName);
       console.log("new class name is "+getClassName(code));
-
+      */
       // TODO: someday, somehow timeout within JS (using webworkers or something else)
       // if this call takes too long or triggers an infinite loop
-      JavaPolyCompiler.compileAndRun(code, newClassName).then(function(result){
+      JavaPolyCompiler.compileAndRun(code, className).then(function(result){
         console.log("number of json commands: "+Object.keys(result).length);
         console.log("result is "+result);
         if (result[TOTAL_SUCCESS]==='true'){
