@@ -286,10 +286,8 @@ function updateJSON(e) {
 // Called once the JSON has been loaded
 window.extractCommandsFromJSON = function(jsontext) {
   var json = JSON.parse(jsontext);
-
   // log how many commands we're getting
   console.log(Object.keys(json).length);
-
   // Sets the current script to be the JSON's list of commands
   curScript = json.commands;
   if (curScript != null) {
@@ -617,6 +615,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       // renaming the class every time using a timestamp.
       var newClassName=className+''+(new Date().getTime());
       code=code.replace('class '+className, 'class '+newClassName);
+      console.log("new class name is "+getClassName(code));
 
       // TODO: someday, somehow timeout within JS (using webworkers or something else)
       // if this call takes too long or triggers an infinite loop
