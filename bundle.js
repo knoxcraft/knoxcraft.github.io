@@ -257,6 +257,16 @@ function updateCode(e) {
   }
 }
 
+function loadLandscape(evt) {
+  setStatus("Loading landscape...");
+  readFile(evt.target.files[0], updateLandscape);
+}
+
+function updateLanscape(e) {
+  var result = e.target.result;
+  console.log(result);
+}
+
 
 // Called when user presses JSONUploadButton- begins
 // reading the uploaded file
@@ -585,6 +595,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // TODO: test DOMContentLoaded with IE8 (does anyone still use IE8?)
   // DOMContentLoaded may not be supported by IE8
   document.getElementById("runscript").addEventListener("click", runScript);
+  document.getElementById("loadLandscapeButton").addEventListener('change', loadLandscape, false);
   document.getElementById("codeUploadButton").addEventListener('change', uploadCode, false);
   document.getElementById("JSONUploadButton").addEventListener('change', parseJSON, false);
   document.getElementById("downloadButton").addEventListener('click', downloadEditorCode);
