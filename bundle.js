@@ -263,7 +263,7 @@ function loadLandscape(evt) {
   readFile(evt.target.files[0], updateLandscape);
 }
 
-function updateLanscape(e) {
+function updateLandscape(e) {
   try {
     var result = e.target.result;
     console.log(result);
