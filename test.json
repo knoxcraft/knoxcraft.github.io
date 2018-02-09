@@ -1,0 +1,17 @@
+{
+    "length" : 2,
+    "width"  : 3,
+    "height" : 4,
+    "blocks" : [
+        [
+            ["STONE","STONE","STONE","STONE"],
+            ["DIRT","DIRT","DIRT","DIRT"],
+            ["GRASS","GRASS","GRASS","GRASS"]
+        ],
+        [
+            ["AIR","AIR","AIR","AIR"],
+            ["BEDROCK","BEDROCK","BEDROCK","BEDROCK"],
+            ["GLASS","GLASS","GLASS","GLASS"]
+        ]
+    ]
+}
